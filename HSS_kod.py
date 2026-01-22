@@ -16,7 +16,7 @@ def is_blocking_path(drone_pos, target_pos, zone, margin=10):
     hx, hy = drone_pos
     tx, ty = target_pos
 
-    # Eğer zaten engelin içindeysek 'yol kapalı' demeyiz, kaçış modu devreye girer.
+    # Eğer zaten engelin içindeysek kaçış modu devreye girer.
     if get_dist(drone_pos, (zx, zy)) < zr:
         return False
 
@@ -72,7 +72,7 @@ def calculate_next_waypoint(json_data):
     drone_vel = data.get("drone_vel", [0, 0]) 
 
     # --- 2. TAHMİN (Sadece Hesaplama İçin) ---
-    PREDICTION_TIME = 2.0 
+    PREDICTION_TIME = 3.0 
     pred_x = raw_target_pos[0] + (target_vel[0] * PREDICTION_TIME)
     pred_y = raw_target_pos[1] + (target_vel[1] * PREDICTION_TIME)
     
@@ -104,14 +104,12 @@ def calculate_next_waypoint(json_data):
             "reason": "Inside Zone"
         }
 
-    # =========================================================================
-    # --- [EKLENEN BÖLÜM] 3.5 REPULSION (BURNUNUN DİKİNE KONTROL) ---
-    # =========================================================================
+   
     # Drone hareket halindeyse (hız > 1 m/s), gittiği yönde engel var mı bakar.
     drone_speed = math.sqrt(drone_vel[0]**2 + drone_vel[1]**2)
     
     if drone_speed > 1.0:
-        LOOK_AHEAD_TIME = 2.5 # Ne kadar uzağa bakacak (saniye cinsinden)
+        LOOK_AHEAD_TIME = 2.0 # Ne kadar uzağa bakacak (saniye cinsinden)
         look_ahead_x = drone_pos[0] + (drone_vel[0] * LOOK_AHEAD_TIME)
         look_ahead_y = drone_pos[1] + (drone_vel[1] * LOOK_AHEAD_TIME)
         
@@ -194,3 +192,4 @@ def calculate_next_waypoint(json_data):
         "waypoint": [raw_target_pos[0], raw_target_pos[1]], 
         "reason": "Path Clear to Target"
     }
+
