@@ -109,7 +109,7 @@ def calculate_next_waypoint(json_data):
     drone_speed = math.sqrt(drone_vel[0]**2 + drone_vel[1]**2)
     
     if drone_speed > 1.0:
-        LOOK_AHEAD_TIME = 2.0 # Ne kadar uzağa bakacak (saniye cinsinden)
+        LOOK_AHEAD_TIME = 1.3 # Ne kadar uzağa bakacak (saniye cinsinden)
         look_ahead_x = drone_pos[0] + (drone_vel[0] * LOOK_AHEAD_TIME)
         look_ahead_y = drone_pos[1] + (drone_vel[1] * LOOK_AHEAD_TIME)
         
@@ -192,4 +192,5 @@ def calculate_next_waypoint(json_data):
         "waypoint": [raw_target_pos[0], raw_target_pos[1]], 
         "reason": "Path Clear to Target"
     }
+
 
